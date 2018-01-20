@@ -1,8 +1,4 @@
-# Chainlist - Your classifieds on Ethereum
-
-Sample Ethereum Dapp to create your classifieds on Ethereum.
-
-This Dapp is linked to the course available on Udemy: https://www.udemy.com/getting-started-with-ethereum-solidity-development
+# Social Fund
 
 Follow the steps described below to install, deploy and run the Dapp.
 
@@ -23,12 +19,6 @@ To build, deploy and test your Dapp locally, you need to install the following t
 
 * **Metamask**: https://metamask.io/
   * Transforms Chrome into a Dapp browser
-
-## Step 1. Clone the project
-
-`git clone https://github.com/chainskills/chainlist.git`
-
-## Step 2. Install all dependencies
 
 ```
 $ cd chainlist
@@ -165,10 +155,3 @@ truffle(development)> app.kill({from: web3.eth.accounts[0]})
 * When you switch accounts in Metamask, don't forget to refresh the page to make sure you get the current account set in Metamask.
 * When you restart your local node, Metamask caches the old contract and its data. You have to switch Metamask network to any other network then back to the local node to see changes.
 
-## Learn more
-
-If you want to know more about all the steps required to install, build and  deploy a Dapp, you can subscribe to our course available on Udemy: https://www.udemy.com/getting-started-with-ethereum-solidity-development
-
-Have fun !!!
-
-ChainSkills Team - 2017

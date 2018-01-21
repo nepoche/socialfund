@@ -21,7 +21,6 @@ To build, deploy and test your Dapp locally, you need to install the following t
   * Transforms Chrome into a Dapp browser
 
 ```
-$ cd chainlist
 $ npm install
 ```
 

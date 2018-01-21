@@ -62,11 +62,11 @@ App = {
     // refresh account information because the balance may have changed
     App.displayAccountInfo();
 
-    var chainListInstance;
+    var fundInstance;
 
-    App.contracts.ChainList.deployed().then(function(instance) {
-      chainListInstance = instance;
-      return chainListInstance.getArticlesForSale();
+    App.contracts.ToastDAO.deployed().then(function(instance) {
+      fundInstance = instance;
+      return fundInstance.getFund();
     }).then(function(articleIds) {
       // Retrieve and clear the article placeholder
       var articlesRow = $('#articlesRow');

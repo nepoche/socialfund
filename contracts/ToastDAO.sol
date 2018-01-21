@@ -53,6 +53,7 @@ contract Toast is owned, tokenRecipient {
     mapping (address => uint) public memberId;
     Member[] public members;
     mapping (string => uint) public portfolio;
+    uint public annualizedROI;
 
     event ProposalAdded(uint proposalID, address recipient, uint amount, string description);
     event Voted(uint proposalID, bool position, address voter, string justification);
@@ -112,12 +113,18 @@ contract Toast is owned, tokenRecipient {
         addMember(owner, 'founder'); // and let's add the founder, to save a step later
         startTime = now;
         proposalPeriod = 5;
+        annualizedROI = 500;
+        portffolioValue = 10000000000000000000;
     }
 
     function contribute() payable external {
         require(msg.value >= 1000000000000000000)
         require(now =< startTime + proposalPeriod * 1 days)
         contributions[msg.sender] = msg.value;
+    }
+
+    function getFund() public constant returns (uint, uint) {
+      return (portfolioValue, annualizedROI);
     }
 
     /**
@@ -352,7 +359,7 @@ contract Toast is owned, tokenRecipient {
 
     // function to exit token trades and recollect portfolioValue
     function exitTrade(string token) onlyOwner external {
-      
+
     }
 
     function receiveFunds() external {

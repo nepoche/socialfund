@@ -1,4 +1,4 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.19;
 
 contract owned {
     address public owner;
@@ -16,7 +16,7 @@ contract owned {
         owner = newOwner;
     }
 }
-//---------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------------
 contract tokenRecipient {
     event receivedEther(address sender, uint amount);
     event receivedTokens(address _from, uint256 _value, address _token, bytes _extraData);
@@ -31,30 +31,41 @@ contract tokenRecipient {
         receivedEther(msg.sender, msg.value);
     }
 }
-//---------------------------------------------------------------------------------
+*///---------------------------------------------------------------------------------
 interface Token {
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
 }
 //---------------------------------------------------------------------------------
-contract Congress is owned, tokenRecipient {
+contract Toast is owned, tokenRecipient {
+
     // Contract Variables and events
+    mapping (address => uint) contributions; // in wei
+    string[] tokens;
+    uint public proposalPeriod;
+    uint public portfolioValue;
+    uint public startTime;
     uint public minimumQuorum;
-    uint public debatingPeriodInMinutes;
+    uint public debatingPeriod;
     int public majorityMargin;
+    uint public investmentPeriod;
     Proposal[] public proposals;
     uint public numProposals;
     mapping (address => uint) public memberId;
     Member[] public members;
+    mapping (string => uint) public portfolio;
 
     event ProposalAdded(uint proposalID, address recipient, uint amount, string description);
     event Voted(uint proposalID, bool position, address voter, string justification);
     event ProposalTallied(uint proposalID, int result, uint quorum, bool active);
     event MembershipChanged(address member, bool isMember);
-    event ChangeOfRules(uint newMinimumQuorum, uint newDebatingPeriodInMinutes, int newMajorityMargin);
+    //event ChangeOfRules(uint newMinimumQuorum, uint newDebatingPeriodInMinutes, int newMajorityMargin);
 
+
+    // Come back to and fix in accordance with newProposal
     struct Proposal {
-        address recipient;
-        uint amount;
+        //address recipient;
+        //uint amount;
+        string token;
         string description;
         uint votingDeadline;
         bool executed;
@@ -68,14 +79,15 @@ contract Congress is owned, tokenRecipient {
 
     struct Member {
         address member;
-        string name;
-        uint memberSince;
+        //uint memberContributions; // in wei
+        //string name;
+        //uint memberSince;
     }
 
     struct Vote {
         bool inSupport;
         address voter;
-        string justification;
+        //string justification;
     }
 
     // Modifier that allows only shareholders to vote and create new proposals
@@ -87,16 +99,25 @@ contract Congress is owned, tokenRecipient {
     /**
      * Constructor function
      */
-    function Congress (
+
+     // need anything else on the constructor function?
+    function Toast (
         uint minimumQuorumForProposals,
         uint minutesForDebate,
-        int marginOfVotesForMajority
+        int marginOfVotesForMajority,
+        uint setInvestmentInterval
     )  payable public {
-        changeVotingRules(minimumQuorumForProposals, minutesForDebate, marginOfVotesForMajority);
-        // It’s necessary to add an empty first member
-        addMember(0, "");
-        // and let's add the founder, to save a step later
-        addMember(owner, 'founder');
+        changeVotingRules(minimumQuorumForProposals, daysForDebate, marginOfVotesForMajority, setInvestmentInterval);
+        addMember(0, ""); // It’s necessary to add an empty first member
+        addMember(owner, 'founder'); // and let's add the founder, to save a step later
+        startTime = now;
+        proposalPeriod = 5;
+    }
+
+    function contribute() payable external {
+        require(msg.value >= 1000000000000000000)
+        require(now =< startTime + proposalPeriod * 1 days)
+        contributions[msg.sender] = msg.value;
     }
 
     /**
@@ -107,15 +128,24 @@ contract Congress is owned, tokenRecipient {
      * @param targetMember ethereum address to be added
      * @param memberName public name for that member
      */
-    function addMember(address targetMember, string memberName) onlyOwner public {
+
+    function addMember(address targetMember) onlyOwner external {
         uint id = memberId[targetMember];
         if (id == 0) {
             memberId[targetMember] = members.length;
             id = members.length++;
         }
 
-        members[id] = Member({member: targetMember, memberSince: now, name: memberName});
+        members[id] = Member({member: targetMember});
+        portfolioValue = portfolioValue + contributions[targetMember];
         MembershipChanged(targetMember, true);
+    }
+
+    function withdrawRefund(address targetMember) external {
+        require(memberId[targetMember] == 0);
+        uint refund = refunds[msg.sender];
+        refunds[msg.sender] = 0;
+        msg.sender.transfer(refund);
     }
 
     /**
@@ -125,12 +155,14 @@ contract Congress is owned, tokenRecipient {
      *
      * @param targetMember ethereum address to be removed
      */
-    function removeMember(address targetMember) onlyOwner public {
+    function removeMember(address targetMember) onlyOwner external {
         require(memberId[targetMember] != 0);
 
+        //ADD IF STATEMENT TO MAKE SURE THEY CAN ONLY LIQUIDATE DURING CERTAIN PERIOD
         for (uint i = memberId[targetMember]; i<members.length-1; i++){
             members[i] = members[i+1];
         }
+        portfolioValue = portfolioValue - contributions[targetMember];
         delete members[members.length-1];
         members.length--;
     }
@@ -148,13 +180,15 @@ contract Congress is owned, tokenRecipient {
     function changeVotingRules(
         uint minimumQuorumForProposals,
         uint minutesForDebate,
-        int marginOfVotesForMajority
-    ) onlyOwner public {
-        minimumQuorum = minimumQuorumForProposals;
-        debatingPeriodInMinutes = minutesForDebate;
-        majorityMargin = marginOfVotesForMajority;
+        int marginOfVotesForMajority,
+        uint setInvestmentInterval
+    ) onlyOwner external {
+        minimumQuorum = 3; //minimumQuorumForProposals;
+        debatingPeriod = 5; //DaysForDebate;
+        majorityMargin = 1; //marginOfVotesForMajority;
+        investmentPeriod = 30;
 
-        ChangeOfRules(minimumQuorum, debatingPeriodInMinutes, majorityMargin);
+        //ChangeOfRules(minimumQuorum, debatingPeriodInMinutes, majorityMargin);
     }
 
     /**
@@ -176,13 +210,15 @@ contract Congress is owned, tokenRecipient {
         onlyMembers public
         returns (uint proposalID)
     {
+        require(now =< startTime + proposalPeriod * 1 days)
         proposalID = proposals.length++;
         Proposal storage p = proposals[proposalID];
-        p.recipient = beneficiary; // Token Name
+        //p.recipient = beneficiary;
         //p.amount = weiAmount; // V2. distribution
+        p.token = tokenName; // Token Name
         p.description = jobDescription; // Description of Token
         p.proposalHash = keccak256(beneficiary, weiAmount, transactionBytecode);
-        p.votingDeadline = now + debatingPeriodInMinutes * 1 minutes;
+        //p.votingDeadline = now + debatingPeriodInMinutes * 1 minutes;
         p.executed = false;
         p.proposalPassed = false;
         p.numberOfVotes = 0;
@@ -209,7 +245,7 @@ contract Congress is owned, tokenRecipient {
         string jobDescription,
         bytes transactionBytecode
     )
-        onlyMembers public
+        onlyMembers external
         returns (uint proposalID)
     {
         return newProposal(beneficiary, etherAmount * 1 ether, jobDescription, transactionBytecode);
@@ -229,7 +265,7 @@ contract Congress is owned, tokenRecipient {
         uint weiAmount,
         bytes transactionBytecode
     )
-        constant public
+        constant external
         returns (bool codeChecksOut)
     {
         Proposal storage p = proposals[proposalNumber];
@@ -250,7 +286,7 @@ contract Congress is owned, tokenRecipient {
         bool supportsProposal,
         string justificationText
     )
-        onlyMembers public
+        onlyMembers external
         returns (uint voteID)
     {
         Proposal storage p = proposals[proposalNumber];         // Get the proposal
@@ -276,7 +312,7 @@ contract Congress is owned, tokenRecipient {
      * @param proposalNumber proposal number
      * @param transactionBytecode optional: if the transaction contained a bytecode, you need to send it
      */
-    function executeProposal(uint proposalNumber, bytes transactionBytecode) public {
+    function executeProposal(uint proposalNumber, bytes transactionBytecode) external {
         Proposal storage p = proposals[proposalNumber];
 
         require(now > p.votingDeadline                                            // If it is past the voting deadline
@@ -300,5 +336,35 @@ contract Congress is owned, tokenRecipient {
 
         // Fire Events
         ProposalTallied(proposalNumber, p.currentResult, p.numberOfVotes, p.proposalPassed);
+    }
+
+    function executeTrade(string token) onlyOwner external {
+      require(now => startTime + proposalPeriod * 1 days + debatingPeriod * 1 days)
+      require(portfolio[token] != 0)
+
+      uint trade = portfolio[token];
+      portfolio[token] = 0;
+      this.transfer(trade);
+
+      // add trades
+
+    }
+
+    // function to exit token trades and recollect portfolioValue
+    function exitTrade(string token) onlyOwner external {
+      
+    }
+
+    function receiveFunds() external {
+      require(now => startTime + proposalPeriod * 1 days + debatingPeriod * 1 days + investmentPeriod * 1 days)
+      require(memberId[targetMember] != 0);
+
+      uint percentage = 100 * (contributions[msg.sender]/portfolioValue);
+      uint percentageFinal = percentage/100;
+      //uint refund = refunds[msg.sender];
+      contributions[msg.sender] = 0;
+      msg.sender.transfer(portfolioValue*percentageFinal);
+
+
     }
 }

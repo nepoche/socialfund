@@ -48,26 +48,30 @@
           </div>
         </div>
       </form>-->
-      <ul id="user_div" class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#" data-toggle="modal" data-target="#signUpUser">
-            <span class="glyphicon glyphicon-user"></span> Sign Up</a>
-        </li>
-        <li>
-          <a href="#" data-toggle="modal" data-target="#loginUser">
-            <span class="glyphicon glyphicon-log-in" ></span> Login</a>
-        </li>
-      </ul>
-      <ul id="login_div" class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#" data-toggle="modal" data-target="#signUpUser">
-            <a class="navbar-brand" href="#">Welcome</a>
-        </li>
-        <li>
-          <a href="#" data-toggle="modal" data-target="#loginUser">
-            <span class="glyphicon glyphicon-log-out"></span> Sign Out</a>
-        </li>
-      </ul>
+      <div id="user_div">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" data-toggle="modal" data-target="#signUpUser">
+              <span class="glyphicon glyphicon-user"></span> Sign Up</a>
+          </li>
+          <li>
+            <a href="#" data-toggle="modal" data-target="#loginUser">
+              <span class="glyphicon glyphicon-log-in" ></span> Login</a>
+          </li>
+        </ul>
+      </div>
+      <div id="login_div">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" data-toggle="modal" data-target="#welcome">
+              <a class="navbar-brand" href="#">Welcome</a>
+          </li>
+          <li>
+            <a href="#" data-toggle="modal" onclick="logout()">
+              <span class="glyphicon glyphicon-log-out"></span> Sign Out</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -105,48 +109,6 @@
           <button type="button" class="btn btn-primary btn-success btn-buy" onclick="App.buyArticle(); return false;">Buy</button>
         </div>
       </div>
-    </div>
-  </div>
-
-
-
-  <!-- Modal form to sell an article -->
-  <div class="modal fade" id="sellArticle" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Sell your article</h4>
-        </div>
-        <div class="modal-body">
-
-          <div class="row">
-            <div class="col-lg-12">
-              <form>
-                <div class="form-group">
-                  <label for="article_name">Article name</label>
-                  <input type="text" class="form-control" id="article_name" placeholder="Enter the name of your article">
-                </div>
-                <div class="form-group">
-                  <label for="price">Price in ETH</label>
-                  <input type="number" class="form-control" id="article_price" placeholder="1" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea type="text" class="form-control vresize" id="article_description" placeholder="Describe your article" maxlength="255"></textarea>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="App.sellArticle(); return false;">Submit</button>
-          <button type="button" class="btn" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -277,10 +239,60 @@
   </div>
   <!-- Contextual classes can be used to color table rows or table cells.
   The classes that can be used are: .active, .success, .info, .warning, and .danger. -->
+<div id="my_funds_div">
+  <div class="container">
+    <div class="form-inline">
+      <h2>My Social Funds</h2>
+      <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" data-target="#createSocialFund">Create Social Fund</button>
+      <p>Funds are classified as high, low, and neutral preformers</p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Fund</th>
+          <th>ROI</th>
+          <th>Current Portfolio Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fund 1</td>
+          <td>2.34</td>
+          <td>2.34 BTC ($27,884)</td>
+          <td><button type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button></td>
+        </tr>
+        <tr class="success">
+          <td>Fund 2</td>
+          <td>3.11</td>
+          <td>3.11 BTC ($37,058)</td>
+          <td>
+            <button type="button" class="btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </td>
+        </tr>
+        <tr class="danger">
+          <td>Fund 3</td>
+          <td>4.35</td>
+          <td>4.35 BTC ($51,834)</td>
+          <td>
+            <button type="button" class="btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
 <div class="container">
   <div class="form-inline">
-    <h2>My Social Funds</h2>
-    <button type="button" class="btn btn-success btn-lg pull-right" data-toggle="modal" data-target="#createSocialFund">Create Social Fund</button>
+    <h2>All Social Funds</h2>
     <p>Funds are classified as high, low, and neutral preformers</p>
   </div>
   <table class="table">
@@ -296,9 +308,11 @@
         <td>Fund 1</td>
         <td>2.34</td>
         <td>2.34 BTC ($27,884)</td>
-        <td><button type="button" class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-plus"></span>
-        </button></td>
+        <td>
+          <button type="button" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+        </td>
       </tr>
       <tr class="success">
         <td>Fund 2</td>

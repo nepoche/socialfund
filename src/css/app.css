@@ -1,6 +1,8 @@
 body {
   padding-top: 0px;
   padding-bottom: 120px;
+  background: url(../images/noToast.png) no-repeat;
+  background-size: 100%;
 }
 
 .footer {

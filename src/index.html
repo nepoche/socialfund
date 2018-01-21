@@ -70,16 +70,6 @@
           <p id="accountBalance" class="welcome pull-left"></p>
         </div>
       </div>
-
-      <div class="row panel panel-default">
-        <div class="panel-heading clearfix">
-          <div class="panel-title">
-            <button class="btn btn-info btn-lg pull-left" data-toggle="collapse" data-target="#events" aria-expanded="false" aria-controls="events">Events</button>
-            <button class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#sellArticle">Sell an article</button>
-
-          </div>
-        </div>
-        <ul id="events" class="collapse list-group"></ul>
       </div>
     </div>
   </div>
@@ -92,13 +82,13 @@
         </div>
         <div class="panel-body">
           <strong>Description</strong>:
-          <span class="article-description"></span>
+          <span class="fund-roi"></span>
           <br/>
           <strong>Price (ETH)</strong>:
-          <span class="article-price"></span>
+          <span class="fund-pv"></span>
           <br/>
           <strong>Sold by</strong>:
-          <span class="article-seller"></span>
+          <span class="fund-owner"></span>
           <br/>
         </div>
         <div class="panel-footer">
@@ -226,26 +216,26 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>Fund</th>
         <th>ROI</th>
-        <th>Chart</th>
+        <th>Current Portfolio Value</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Fund 1</td>
-        <td>200</td>
-        <td>def@somemail.com</td>
+        <td>2.34</td>
+        <td>2.34 BTC ($27,884)</td>
       </tr>
       <tr class="success">
         <td>Fund 2</td>
-        <td>10</td>
-        <td>john@example.com</td>
+        <td>3.11</td>
+        <td>3.11 BTC ($37,058)</td>
       </tr>
       <tr class="danger">
         <td>Fund 3</td>
-        <td>900</td>
-        <td>mary@example.com</td>
+        <td>4.35</td>
+        <td>4.35 BTC ($51,834)</td>
       </tr>
     </tbody>
   </table>
@@ -274,7 +264,10 @@ $(function () {
             data: [1, 0, 4, 3, 2, 7, 8, 7, 7, 8, 10, 11]
         }, {
             name: 'Fund 2',
-            data: [2, 4, 2, 13, 2, 7, 10, 7, 7, 8, 4, 11]
+            data: [2, 4, 2, 13, 2, 7, 10, 7, 7, 8, 4, 12]
+        }, {
+            name: 'Fund 3',
+            data: [0, 0, 1, 3, 2, 7, 5, 4, 7, 11, 17, 23]
         }]
     });
 });

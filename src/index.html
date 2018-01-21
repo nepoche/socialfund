@@ -37,7 +37,7 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">Social Fund</a>
       </div>
-  
+
       <form class="navbar-form navbar-left" action="">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -76,7 +76,7 @@
           <div class="panel-title">
             <button class="btn btn-info btn-lg pull-left" data-toggle="collapse" data-target="#events" aria-expanded="false" aria-controls="events">Events</button>
             <button class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#sellArticle">Sell an article</button>
-                    
+
           </div>
         </div>
         <ul id="events" class="collapse list-group"></ul>
@@ -180,7 +180,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="">Submit</button>
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="signup()">Submit</button>
           <button type="button" class="btn btn-primary btn-fail" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -201,11 +201,11 @@
               <form>
                 <div class="form-group">
                   <label for="article_name">Username</label>
-                  <input type="text" class="form-control" id="username" placeholder="Username">
+                  <input type="text" class="form-control" id="usernameLogin" placeholder="Username">
                 </div>
                 <div class="form-group">
                   <label for="price">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password">
+                  <input type="password" class="form-control" id="passwordLogin" placeholder="Password">
                 </div>
               </form>
             </div>
@@ -282,7 +282,7 @@ $(function () {
   <div id="footer" class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="navbar-inner navbar-content-center text-center">
-  
+
       </div>
     </nav>
   </div>
@@ -291,13 +291,14 @@ $(function () {
   <script>
     // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyBPmZU5GIVK_6iDzROpMaYgUaqVu4FadlY",
-      authDomain: "fir-web-login-8b7c5.firebaseapp.com",
-      databaseURL: "https://fir-web-login-8b7c5.firebaseio.com",
-      projectId: "fir-web-login-8b7c5",
-      storageBucket: "fir-web-login-8b7c5.appspot.com",
-      messagingSenderId: "301701306998"
+      apiKey: "AIzaSyAoCGisKO-W70iD4_4-LmtqMmraS2crqqk",
+      authDomain: "socialfund-f1aaf.firebaseapp.com",
+      databaseURL: "https://socialfund-f1aaf.firebaseio.com",
+      projectId: "socialfund-f1aaf",
+      storageBucket: "",
+      messagingSenderId: "865613636474"
     };
+
     firebase.initializeApp(config);
   </script>
   <script src="js/login.js"></script>

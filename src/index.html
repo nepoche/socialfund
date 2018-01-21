@@ -212,7 +212,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="">Submit</button>
+          <button type="button" class="btn btn-primary btn-success" data-dismiss="modal" onclick="login()">Submit</button>
           <button type="button" class="btn btn-primary btn-fail" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -287,7 +287,20 @@ $(function () {
     </nav>
   </div>
 
-
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBPmZU5GIVK_6iDzROpMaYgUaqVu4FadlY",
+      authDomain: "fir-web-login-8b7c5.firebaseapp.com",
+      databaseURL: "https://fir-web-login-8b7c5.firebaseio.com",
+      projectId: "fir-web-login-8b7c5",
+      storageBucket: "fir-web-login-8b7c5.appspot.com",
+      messagingSenderId: "301701306998"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="js/login.js"></script>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

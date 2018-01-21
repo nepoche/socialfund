@@ -80,9 +80,7 @@ App = {
           App.displayFund(
             fund[0],
             fund[1],
-            fund[3],
-            fund[4],
-            fund[5]
+            fund[2]
           );
         });
       }
@@ -93,46 +91,44 @@ App = {
     });
   },
 
-  displayFund: function(id, seller, name, description, price) {
+  displayFund: function(owner, pv, roi) {
     // Retrieve the fund placeholder
     var fundsRow = $('#fundsRow');
 
-    var etherPrice = web3.fromWei(price, "ether");
+    var etherPrice = web3.fromWei(pv, "ether");
 
     // Retrieve and fill the fund template
     var fundTemplate = $('#fundTemplate');
-    fundTemplate.find('.panel-title').text(name);
-    fundTemplate.find('.fund-description').text(description);
-    fundTemplate.find('.fund-price').text(etherPrice + " ETH");
-    fundTemplate.find('.btn-buy').attr('data-id', id);
+    fundTemplate.find('.fund-owner').text(owner);
+    fundTemplate.find('.fund-pv').text(etherPrice + " ETH");
     fundTemplate.find('.btn-buy').attr('data-value', etherPrice);
 
-    // seller?
+    /*/ seller?
     if (seller == App.account) {
       fundTemplate.find('.fund-seller').text("You");
       fundTemplate.find('.btn-buy').hide();
     } else {
       fundTemplate.find('.fund-seller').text(seller);
       fundTemplate.find('.btn-buy').show();
-    }
+    } */
 
     // add this new fund
     fundsRow.append(fundTemplate.html());
   },
 
-  sellfund: function() {
+  createfund: function() {
     // retrieve details of the fund
-    var _fund_name = $("#fund_name").val();
-    var _description = $("#fund_description").val();
+    var _fund_owner = $("#fund_owner").val();
+    var _fund_roi = $("#fund_roi").val();
     var _price = web3.toWei(parseFloat($("#fund_price").val() || 0), "ether");
 
-    if ((_fund_name.trim() == '') || (_price == 0)) {
+    if ((_fund_owner.trim() == '') || (_price == 0)) {
       // nothing to sell
       return false;
     }
 
     App.contracts.ToastDAO.deployed().then(function(instance) {
-      return instance.sellfund(_fund_name, _description, _price, {
+      return instance.sellfund(_fund_owner, _fund_roi, _price, {
         from: App.account,
         gas: 500000
       });
@@ -339,17 +335,17 @@ App = {
 
   /*createFund: function() {
     // retrieve details of the fund
-    var _fund_name = $("#fund_name").val();
-    var _description = $("#fund_description").val();
+    var _fund_owner = $("#fund_owner").val();
+    var _description = $("#fund_roi").val();
     var _price = web3.toWei(parseFloat($("#fund_price").val() || 0), "ether");
 
-    if ((_fund_name.trim() == '') || (_price == 0)) {
+    if ((_fund_owner.trim() == '') || (_price == 0)) {
       // nothing to sell
       return false;
     }
 
     App.contracts.ToastDAO.deployed().then(function(instance) {
-      return instance.sellfund(_fund_name, _description, _price, {
+      return instance.sellfund(_fund_owner, _description, _price, {
         from: App.account,
         gas: 500000
       });

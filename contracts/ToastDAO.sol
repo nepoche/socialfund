@@ -39,14 +39,14 @@ interface Token {
 contract Toast is owned, tokenRecipient {
     //state Variables
     uint fundCounter;
-
+    mapping(uint => Fund) public funds;
 
     struct Fund {
       // Contract Variables and events
-      mapping (address => uint) contributions; // in wei
-      string[] tokens;
-      uint public proposalPeriod;
+      address public owner;
       uint public portfolioValue;
+      uint public annualizedROI;
+      uint public proposalPeriod;
       uint public startTime;
       uint public minimumQuorum;
       uint public debatingPeriod;
@@ -57,7 +57,8 @@ contract Toast is owned, tokenRecipient {
       mapping (address => uint) public memberId;
       Member[] public members;
       mapping (string => uint) public portfolio;
-      uint public annualizedROI;
+      string[] tokens;
+      mapping (address => uint) contributions; // in wei
     }
 
     event ProposalAdded(uint proposalID, address recipient, uint amount, string description);

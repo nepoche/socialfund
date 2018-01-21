@@ -1,3 +1,5 @@
+var admin = require("firebase-admin");
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
@@ -25,8 +27,10 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 function login() {
 
-    var userEmail = document.getElementById("email_field").value;
-    var userPass = document.getElementById("password_field").value;
+    var userEmail = document.getElementById("usernameLogin").value;
+    var userPass = document.getElementById("passwordLogin").value;
+
+    var userRef = firebase.database().ref('');
 
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         // Handle Errors here.
@@ -37,6 +41,25 @@ function login() {
 
         // ...
     });
+}
+
+function signup() {
+
+  var newUser = document.getElementById("username").value;
+  var userPass = document.getElementById("password").value;
+  var userEmail = document.getElementById("email").value;
+
+  var db = admin.database();
+  var ref = db.ref("server/saving-data/fireblog");
+
+  firebase.auth().createUserWithEmailAndPassword(userEmail, userPass)
+  .then(function(user) {
+    alert(user.userName)
+  }).catch(function(error){
+    console.log(error.message)
+  });
+
+  login();
 
 }
 

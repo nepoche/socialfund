@@ -1,5 +1,4 @@
-var admin = require("firebase-admin");
-
+//var database = firebase.database().ref("users/" + user.uid);
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
@@ -30,7 +29,7 @@ function login() {
     var userEmail = document.getElementById("usernameLogin").value;
     var userPass = document.getElementById("passwordLogin").value;
 
-    var userRef = firebase.database().ref('');
+    
 
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         // Handle Errors here.
@@ -49,15 +48,38 @@ function signup() {
   var userPass = document.getElementById("password").value;
   var userEmail = document.getElementById("email").value;
 
-  var db = admin.database();
-  var ref = db.ref("server/saving-data/fireblog");
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).then(function (user) {
+        // [END createwithemail]
+        // callSomeFunction(); Optional
+        // var user = firebase.auth().currentUser;
+        var user = firebase.auth().currentUser;
 
-  firebase.auth().createUserWithEmailAndPassword(userEmail, userPass)
-  .then(function(user) {
-    alert(user.userName)
-  }).catch(function(error){
-    console.log(error.message)
-  });
+        if (user != null) {
+            const dbRefObject = firebase.database().ref().child('object');
+            const dbRefList = dbRefObject.child("users/" + user.uid);
+            dbRefList.set({
+                username: newUser,
+            });
+        } 
+        user.updateProfile({
+            username: newUser
+        }).then(function () {
+            // Update successful.
+        }, function (error) {
+            // An error happened.
+        });
+    }, function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak. Please try again with a stronger password');
+        } else {
+            console.error(error);
+        }
+        // [END_EXCLUDE]
+    });
 
   login();
 

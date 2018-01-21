@@ -245,7 +245,23 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="price">Amount</label>
+                  <label for="proposalQuorum">Minimum Quorum For Proposals</label>
+                  <input type="number" class="form-control" id="article_price" placeholder="1" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <=57" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
+                </div>
+                <div class="form-group">
+                  <label for="debatingPeriod">Debating Period in days</label>
+                  <input type="number" class="form-control" id="article_price" placeholder="1" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <=57" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
+                </div>
+                <div class="form-group">
+                  <label for="marginVotes">Margin Votes for Majority</label>
+                  <input type="number" class="form-control" id="article_price" placeholder="1" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <=57" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
+                </div>
+                <div class="form-group">
+                  <label for="investmentPeriod">Investment Period</label>
+                  <input type="number" class="form-control" id="article_price" placeholder="1" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <=57" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
+                </div>
+                <div class="form-group">
+                  <label for="price">Amount in cryptocurrency</label>
                   <input type="number" class="form-control" id="article_price" placeholder="1" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <=57" pattern="[0-9]+([\.,][0-9]+)?" step="0.01">
                 </div>
               </form>

@@ -124,7 +124,7 @@ function createFund() {
   var allFunds = document.getElementById('allFunds');
   var newRow = document.createElement("tr");
   var fundId = document.createElement("th");
-  fundId.innerHTML = "Fund 4";
+  fundId.innerHTML = "Toast Fund";
   var roi = document.createElement("th");
   roi.innerHTML = "1.22 BTC ($14,102)";
   var minQuorum = document.createElement("th");
@@ -151,6 +151,7 @@ function createFund() {
   addButton.setAttribute("class", "btn btn-default btn-sm");
   addButton.setAttribute("data-toggle", "modal");
   addButton.setAttribute("data-target", "addFundModal");
+  addButton.setAttribute("onclick", "addFund()");
 
   var randSpan = document.createElement("span");
   randSpan.setAttribute("class", "glyphicon glyphicon-plus");

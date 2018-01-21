@@ -38,22 +38,24 @@ interface Token {
 //---------------------------------------------------------------------------------
 contract Toast is owned, tokenRecipient {
 
-    // Contract Variables and events
-    mapping (address => uint) contributions; // in wei
-    string[] tokens;
-    uint public proposalPeriod;
-    uint public portfolioValue;
-    uint public startTime;
-    uint public minimumQuorum;
-    uint public debatingPeriod;
-    int public majorityMargin;
-    uint public investmentPeriod;
-    Proposal[] public proposals;
-    uint public numProposals;
-    mapping (address => uint) public memberId;
-    Member[] public members;
-    mapping (string => uint) public portfolio;
-    uint public annualizedROI;
+    struct Fund {
+      // Contract Variables and events
+      mapping (address => uint) contributions; // in wei
+      string[] tokens;
+      uint public proposalPeriod;
+      uint public portfolioValue;
+      uint public startTime;
+      uint public minimumQuorum;
+      uint public debatingPeriod;
+      int public majorityMargin;
+      uint public investmentPeriod;
+      Proposal[] public proposals;
+      uint public numProposals;
+      mapping (address => uint) public memberId;
+      Member[] public members;
+      mapping (string => uint) public portfolio;
+      uint public annualizedROI;
+    }
 
     event ProposalAdded(uint proposalID, address recipient, uint amount, string description);
     event Voted(uint proposalID, bool position, address voter, string justification);
@@ -102,12 +104,34 @@ contract Toast is owned, tokenRecipient {
      */
 
      // need anything else on the constructor function?
-    function Toast (
-        uint minimumQuorumForProposals,
-        uint minutesForDebate,
-        int marginOfVotesForMajority,
-        uint setInvestmentInterval
-    )  payable public {
+    function Toast() {}
+
+    // sell an article
+    function sellArticle(string _name, string _description, uint256 _price) public {
+      // a new article
+      articleCounter++;
+
+      // store this article
+      articles[articleCounter] = Article(
+           articleCounter,
+           msg.sender,
+           0x0,
+           _name,
+           _description,
+           _price
+      );
+
+      // trigger the event
+      sellArticleEvent(articleCounter, msg.sender, _name, _price);
+    }
+
+    function createFund(
+      uint minimumQuorumForProposals,
+      uint minutesForDebate,
+      int marginOfVotesForMajority,
+      uint setInvestmentInterval,
+      uint portfolioValue
+      ) payable public {
         changeVotingRules(minimumQuorumForProposals, daysForDebate, marginOfVotesForMajority, setInvestmentInterval);
         addMember(0, ""); // It’s necessary to add an empty first member
         addMember(owner, 'founder'); // and let's add the founder, to save a step later

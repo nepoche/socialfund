@@ -22,12 +22,36 @@
   <link href="css/app.css" rel="stylesheet">
 
 </head>
-
-<body>
-  <div class="container">
-    <div class="jumbotron text-center">
-      <h1>SocialFund</h1>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a href="#">Home</a>
+      </li>
+      <li>
+        <a href="#">Page 1</a>
+      </li>
+      <li>
+        <a href="#">Page 2</a>
+      </li>
+    </ul>
+    <form class="navbar-form navbar-right" action="/action_page.php">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</nav>
+<body>
+ 
+  <div class="container">
+    
+    
+    
 
     <div class="col-md-12" id="article-list">
       <div class="row">
@@ -49,6 +73,14 @@
 
       <div id="articlesRow" class="row">
         <!-- ARTICLES LOAD HERE -->
+        <form class="navbar-form bavbar-left" role="search">
+          <div class = "form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+        
       </div>
     </div>
   </div>
@@ -61,9 +93,15 @@
           <h3 class="panel-title"></h3>
         </div>
         <div class="panel-body">
-          <strong>Description</strong>: <span class="article-description"></span><br/>
-          <strong>Price (ETH)</strong>: <span class="article-price"></span><br/>
-          <strong>Sold by</strong>: <span class="article-seller"></span><br/>
+          <strong>Description</strong>:
+          <span class="article-description"></span>
+          <br/>
+          <strong>Price (ETH)</strong>:
+          <span class="article-price"></span>
+          <br/>
+          <strong>Sold by</strong>:
+          <span class="article-seller"></span>
+          <br/>
         </div>
         <div class="panel-footer">
           <button type="button" class="btn btn-primary btn-success btn-buy" onclick="App.buyArticle(); return false;">Buy</button>

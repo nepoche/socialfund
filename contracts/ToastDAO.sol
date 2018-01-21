@@ -123,8 +123,8 @@ contract Toast is owned, tokenRecipient {
         contributions[msg.sender] = msg.value;
     }
 
-    function getFund() public constant returns (uint, uint) {
-      return (portfolioValue, annualizedROI);
+    function getFund() public constant returns (address, uint, uint) {
+      return (owner, portfolioValue, annualizedROI);
     }
 
     /**

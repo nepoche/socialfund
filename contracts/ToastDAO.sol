@@ -37,6 +37,9 @@ interface Token {
 }
 //---------------------------------------------------------------------------------
 contract Toast is owned, tokenRecipient {
+    //state Variables
+    uint fundCounter;
+
 
     struct Fund {
       // Contract Variables and events
@@ -104,25 +107,8 @@ contract Toast is owned, tokenRecipient {
      */
 
      // need anything else on the constructor function?
-    function Toast() {}
+    function Toast() {
 
-    // sell an article
-    function sellArticle(string _name, string _description, uint256 _price) public {
-      // a new article
-      articleCounter++;
-
-      // store this article
-      articles[articleCounter] = Article(
-           articleCounter,
-           msg.sender,
-           0x0,
-           _name,
-           _description,
-           _price
-      );
-
-      // trigger the event
-      sellArticleEvent(articleCounter, msg.sender, _name, _price);
     }
 
     function createFund(
@@ -132,13 +118,17 @@ contract Toast is owned, tokenRecipient {
       uint setInvestmentInterval,
       uint portfolioValue
       ) payable public {
-        changeVotingRules(minimumQuorumForProposals, daysForDebate, marginOfVotesForMajority, setInvestmentInterval);
+        minimumQuorum = 3; //minimumQuorumForProposals;
+        debatingPeriod = 5; //DaysForDebate;
+        majorityMargin = 1; //marginOfVotesForMajority;
+        investmentPeriod = 30;
         addMember(0, ""); // It’s necessary to add an empty first member
         addMember(owner, 'founder'); // and let's add the founder, to save a step later
         startTime = now;
         proposalPeriod = 5;
         annualizedROI = 500;
         portffolioValue = 10000000000000000000;
+        fundCounter++;
     }
 
     function contribute() payable external {
@@ -150,6 +140,12 @@ contract Toast is owned, tokenRecipient {
     function getFund() public constant returns (address, uint, uint) {
       return (owner, portfolioValue, annualizedROI);
     }
+
+    function getNumberOfFunds() public constant returns (uint) {
+        return fundCounter;
+    }
+
+
 
     /**
      * Add member
@@ -208,6 +204,7 @@ contract Toast is owned, tokenRecipient {
      * @param minutesForDebate the minimum amount of delay between when a proposal is made and when it can be executed
      * @param marginOfVotesForMajority the proposal needs to have 50% plus this number
      */
+    /*
     function changeVotingRules(
         uint minimumQuorumForProposals,
         uint minutesForDebate,
@@ -218,7 +215,7 @@ contract Toast is owned, tokenRecipient {
         debatingPeriod = 5; //DaysForDebate;
         majorityMargin = 1; //marginOfVotesForMajority;
         investmentPeriod = 30;
-
+        */
         //ChangeOfRules(minimumQuorum, debatingPeriodInMinutes, majorityMargin);
     }
 

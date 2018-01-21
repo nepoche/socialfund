@@ -83,108 +83,109 @@ App = {
       console.log(err.message);
       App.loading = false;
     });
-  },
-
-  displayFund: function(owner, pv, roi) {
-    // Retrieve the fund placeholder
-    var fundsRow = $('#fundsRow');
-
-    var etherPrice = web3.fromWei(price, "ether");
-
-    // Retrieve and fill the fund template
-    var fundTemplate = $('#fundTemplate');
-    fundTemplate.find('.fund-roi').text(roi + "%");
-    fundTemplate.find('.fund-pv').text(portfolioValue + " ETH");
-    fundTemplate.find('.btn-buy').attr('data-value', etherPrice);
-
-    // seller?
-    if (seller == App.account) {
-      fundTemplate.find('.fund-seller').text("You");
-      fundTemplate.find('.btn-buy').hide();
-    } else { */
-    fundTemplate.find('.fundOwner').text(seller);
-    fundTemplate.find('.btn-buy').show();
-    //}
-
-    // add this new fund
-    fundsRow.append(fundTemplate.html());
-  },
-
-  /*createFund: function() {
-    // retrieve details of the fund
-    var _fund_name = $("#fund_name").val();
-    var _description = $("#fund_description").val();
-    var _price = web3.toWei(parseFloat($("#fund_price").val() || 0), "ether");
-
-    if ((_fund_name.trim() == '') || (_price == 0)) {
-      // nothing to sell
-      return false;
-    }
-
-    App.contracts.ToastDAO.deployed().then(function(instance) {
-      return instance.sellfund(_fund_name, _description, _price, {
-        from: App.account,
-        gas: 500000
-      });
-    }).then(function(result) {
-
-    }).catch(function(err) {
-      console.error(err);
-    });
-  },
-
-  // Listen for events raised from the contract
-  /*listenToEvents: function() {
-    App.contracts.ToastDAO.deployed().then(function(instance) {
-      instance.sellfundEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        if (!error) {
-          $("#events").append('<li class="list-group-item">' + event.args._name + ' is for sale' + '</li>');
-        } else {
-          console.error(error);
-        }
-        App.reloadfunds();
-      });
-
-      instance.buyfundEvent({}, {
-        fromBlock: 0,
-        toBlock: 'latest'
-      }).watch(function(error, event) {
-        if (!error) {
-          $("#events").append('<li class="list-group-item">' + event.args._buyer + ' bought ' + event.args._name + '</li>');
-        } else {
-          console.error(error);
-        }
-        App.reloadfunds();
-      });
-    });
-  },
-
-  /*buyfund: function() {
-    event.preventDefault();
-
-    // retrieve the fund price
-    var _fundId = $(event.target).data('id');
-    var _price = parseFloat($(event.target).data('value'));
-
-    App.contracts.ToastDAO.deployed().then(function(instance) {
-      return instance.buyfund(_fundId, {
-        from: App.account,
-        value: web3.toWei(_price, "ether"),
-        gas: 500000
-      });
-    }).then(function(result) {
-
-    }).catch(function(err) {
-      console.error(err);
-    });
-  },
+  }
 };
 
-$(function() {
-  $(window).load(function() {
-    App.init();
-  });
-});
+  // displayFund: function(owner, pv, roi) {
+  //   // Retrieve the fund placeholder
+  //   var fundsRow = $('#fundsRow');
+  //
+  //   var etherPrice = web3.fromWei(price, "ether");
+  //
+  //   // Retrieve and fill the fund template
+  //   var fundTemplate = $('#fundTemplate');
+  //   fundTemplate.find('.fund-roi').text(roi + "%");
+  //   fundTemplate.find('.fund-pv').text(portfolioValue + " ETH");
+  //   fundTemplate.find('.btn-buy').attr('data-value', etherPrice);
+  //
+  //   // seller?
+  //   if (seller == App.account) {
+  //     fundTemplate.find('.fund-seller').text("You");
+  //     fundTemplate.find('.btn-buy').hide();
+  //   } else {
+  //   fundTemplate.find('.fundOwner').text(seller);
+  //   fundTemplate.find('.btn-buy').show();
+  //   }
+  //
+  //   // add this new fund
+  //   fundsRow.append(fundTemplate.html());
+  // },
+
+  // createFund: function() {
+    // retrieve details of the fund
+  //   var _fund_name = $("#fund_name").val();
+  //   var _description = $("#fund_description").val();
+  //   var _price = web3.toWei(parseFloat($("#fund_price").val() || 0), "ether");
+  //
+  //   if ((_fund_name.trim() == '') || (_price == 0)) {
+  //     // nothing to sell
+  //     return false;
+  //   }
+  //
+  //   App.contracts.ToastDAO.deployed().then(function(instance) {
+  //     return instance.sellfund(_fund_name, _description, _price, {
+  //       from: App.account,
+  //       gas: 500000
+  //     });
+  //   }).then(function(result) {
+  //
+  //   }).catch(function(err) {
+  //     console.error(err);
+  //   });
+  // },
+
+  // Listen for events raised from the contract
+  // listenToEvents: function() {
+  //   App.contracts.ToastDAO.deployed().then(function(instance) {
+  //     instance.sellfundEvent({}, {
+  //       fromBlock: 0,
+  //       toBlock: 'latest'
+  //     }).watch(function(error, event) {
+  //       if (!error) {
+  //         $("#events").append('<li class="list-group-item">' + event.args._name + ' is for sale' + '</li>');
+  //       } else {
+  //         console.error(error);
+  //       }
+  //       App.reloadfunds();
+  //     });
+  //
+  //     instance.buyfundEvent({}, {
+  //       fromBlock: 0,
+  //       toBlock: 'latest'
+  //     }).watch(function(error, event) {
+  //       if (!error) {
+  //         $("#events").append('<li class="list-group-item">' + event.args._buyer + ' bought ' + event.args._name + '</li>');
+  //       } else {
+  //         console.error(error);
+  //       }
+  //       App.reloadfunds();
+  //     });
+  //   });
+  // },
+
+  // buyfund: function() {
+//     event.preventDefault();
+//
+//     // retrieve the fund price
+//     var _fundId = $(event.target).data('id');
+//     var _price = parseFloat($(event.target).data('value'));
+//
+//     App.contracts.ToastDAO.deployed().then(function(instance) {
+//       return instance.buyfund(_fundId, {
+//         from: App.account,
+//         value: web3.toWei(_price, "ether"),
+//         gas: 500000
+//       });
+//     }).then(function(result) {
+//
+//     }).catch(function(err) {
+//       console.error(err);
+//     });
+//   },
+// };
+//
+// $(function() {
+//   $(window).load(function() {
+//     App.init();
+//   });
+// });

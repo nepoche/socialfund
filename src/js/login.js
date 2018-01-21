@@ -1,3 +1,5 @@
+var fundCount = 0;
+
 //var database = firebase.database().ref("users/" + user.uid);
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -7,13 +9,6 @@ firebase.auth().onAuthStateChanged(function (user) {
         document.getElementById("login_div").style.display = "block";
 
         var user = firebase.auth().currentUser;
-
-        if (user != null) {
-
-            var email_id = user.email;
-            document.getElementById("user_para").innerHTML = "Welcome User : " + email_id;
-
-        }
 
     } else {
         // No user is signed in.
@@ -87,4 +82,83 @@ function signup() {
 
 function logout() {
     firebase.auth().signOut();
+}
+
+function addFund() {
+
+  fundCount++;
+
+  var myFundsSection = document.getElementById('myFunds');
+  var newRow = document.createElement("tr");
+  var fundId = document.createElement("th");
+  fundId.innerHTML = "Fund 4";
+  var roi = document.createElement("th");
+  roi.innerHTML = "1.02";
+  var portVal = document.createElement("th");
+  portVal.innerHTML = "2.34 BTC ($27,884)";
+  var amountInvested = document.createElement("th");
+  amountInvested.innerHTML = "1.12 BTC";
+
+  newRow.appendChild(fundId);
+  newRow.appendChild(roi);
+  newRow.appendChild(portVal);
+  newRow.appendChild(amountInvested);
+
+  myFundsSection.appendChild(newRow);
+
+}
+
+// <tr>
+//   <td>Fund 1</td>
+//   <td>1.4</td>
+//   <td>1.22 BTC ($14,102)</td>
+//   <td>
+//     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addFundModal">
+//       <span class="glyphicon glyphicon-plus"></span>
+//     </button>
+//   </td>
+// </tr>
+
+function createFund() {
+
+  var allFunds = document.getElementById('allFunds');
+  var newRow = document.createElement("tr");
+  var fundId = document.createElement("th");
+  fundId.innerHTML = "Fund 4";
+  var roi = document.createElement("th");
+  roi.innerHTML = "1.22 BTC ($14,102)";
+  var minQuorum = document.createElement("th");
+  minQuorum.innerHTML = "3";
+  var debatePeriod = document.createElement("th");
+  debatePeriod.innerHTML = "7";
+  var voteMargin = document.createElement("th");
+  voteMargin.innerHTML = "51%";
+  var investPeriod = document.createElement("th");
+  investPeriod.innerHTML = "30";
+  var portVal = document.createElement("th");
+  portVal.innerHTML = "1.00";
+
+  newRow.appendChild(fundId);
+  newRow.appendChild(portVal);
+  newRow.appendChild(roi);
+  newRow.appendChild(minQuorum);
+  newRow.appendChild(debatePeriod);
+  newRow.appendChild(voteMargin);
+  newRow.appendChild(investPeriod);
+
+  var addButton = document.createElement("button");
+  addButton.setAttribute("type", "button");
+  addButton.setAttribute("class", "btn btn-default btn-sm");
+  addButton.setAttribute("data-toggle", "modal");
+  addButton.setAttribute("data-target", "addFundModal");
+
+  var randSpan = document.createElement("span");
+  randSpan.setAttribute("class", "glyphicon glyphicon-plus");
+
+  addButton.appendChild(randSpan);
+
+  newRow.appendChild(addButton);
+
+  allFunds.appendChild(newRow);
+
 }

@@ -52,7 +52,7 @@ App = {
     });
   },
 
-  reloadFund: function() {
+  reloadArticles: function() {
     // avoid reentry
     if (App.loading) {
       return;
@@ -62,11 +62,11 @@ App = {
     // refresh account information because the balance may have changed
     App.displayAccountInfo();
 
-    var fundInstance;
+    var chainListInstance;
 
-    App.contracts.ToastDAO.deployed().then(function(instance) {
-      fundInstance = instance;
-      return fundInstance.getFund();
+    App.contracts.ChainList.deployed().then(function(instance) {
+      chainListInstance = instance;
+      return chainListInstance.getArticlesForSale();
     }).then(function(articleIds) {
       // Retrieve and clear the article placeholder
       var articlesRow = $('#articlesRow');
@@ -74,8 +74,14 @@ App = {
 
       for (var i = 0; i < articleIds.length; i++) {
         var articleId = articleIds[i];
-        fundInstance.then(function(instance) {
-          App.displayFund(fundInstance.getFund());
+        chainListInstance.articles(articleId.toNumber()).then(function(article) {
+          App.displayArticle(
+            article[0],
+            article[1],
+            article[3],
+            article[4],
+            article[5]
+          );
         });
       }
       App.loading = false;
@@ -85,32 +91,34 @@ App = {
     });
   },
 
-  displayFund: function(owner, pv, roi) {
+  displayArticle: function(id, seller, name, description, price) {
     // Retrieve the article placeholder
     var articlesRow = $('#articlesRow');
 
-    var portfolioValue = web3.fromWei(pv, "ether");
+    var etherPrice = web3.fromWei(price, "ether");
 
     // Retrieve and fill the article template
     var articleTemplate = $('#articleTemplate');
-    articleTemplate.find('.fund-roi').text(roi + "%");
-    articleTemplate.find('.fund-pv').text(portfolioValue + " ETH");
+    articleTemplate.find('.panel-title').text(name);
+    articleTemplate.find('.article-description').text(description);
+    articleTemplate.find('.article-price').text(etherPrice + " ETH");
+    articleTemplate.find('.btn-buy').attr('data-id', id);
     articleTemplate.find('.btn-buy').attr('data-value', etherPrice);
 
-    /* seller?
+    // seller?
     if (seller == App.account) {
       articleTemplate.find('.article-seller').text("You");
       articleTemplate.find('.btn-buy').hide();
-    } else { */
-    articleTemplate.find('.fundOwner').text(seller);
-    articleTemplate.find('.btn-buy').show();
-    //}
+    } else {
+      articleTemplate.find('.article-seller').text(seller);
+      articleTemplate.find('.btn-buy').show();
+    }
 
     // add this new article
     articlesRow.append(articleTemplate.html());
   },
 
-  /*createFund: function() {
+  sellArticle: function() {
     // retrieve details of the article
     var _article_name = $("#article_name").val();
     var _description = $("#article_description").val();
@@ -131,10 +139,10 @@ App = {
     }).catch(function(err) {
       console.error(err);
     });
-  }, */
+  },
 
   // Listen for events raised from the contract
-  /*listenToEvents: function() {
+  listenToEvents: function() {
     App.contracts.ChainList.deployed().then(function(instance) {
       instance.sellArticleEvent({}, {
         fromBlock: 0,
@@ -161,9 +169,8 @@ App = {
       });
     });
   },
-  */
 
-  /*buyArticle: function() {
+  buyArticle: function() {
     event.preventDefault();
 
     // retrieve the article price
@@ -182,7 +189,7 @@ App = {
       console.error(err);
     });
   },
-}; */
+};
 
 $(function() {
   $(window).load(function() {

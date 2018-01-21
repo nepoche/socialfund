@@ -3,8 +3,8 @@ firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         // User is signed in.
 
-        document.getElementById("user_div").style.display = "block";
-        document.getElementById("login_div").style.display = "none";
+        document.getElementById("user_div").style.display = "none";
+        document.getElementById("login_div").style.display = "block";
 
         var user = firebase.auth().currentUser;
 
@@ -18,8 +18,8 @@ firebase.auth().onAuthStateChanged(function (user) {
     } else {
         // No user is signed in.
 
-        document.getElementById("user_div").style.display = "none";
-        document.getElementById("login_div").style.display = "block";
+        document.getElementById("user_div").style.display = "block";
+        document.getElementById("login_div").style.display = "none";
 
     }
 });
@@ -29,7 +29,7 @@ function login() {
     var userEmail = document.getElementById("usernameLogin").value;
     var userPass = document.getElementById("passwordLogin").value;
 
-    
+
 
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         // Handle Errors here.
@@ -60,7 +60,7 @@ function signup() {
             dbRefList.set({
                 username: newUser,
             });
-        } 
+        }
         user.updateProfile({
             username: newUser
         }).then(function () {

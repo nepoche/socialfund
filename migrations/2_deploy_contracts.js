@@ -1,5 +1,5 @@
-var ChainList = artifacts.require("./ChainList.sol");
+var ToastDAO = artifacts.require("./ToastDAO.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ChainList);
+  deployer.deploy(ToastDAO);
 };
